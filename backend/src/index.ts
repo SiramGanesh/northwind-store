@@ -7,7 +7,7 @@ import { getEnv } from "./lib/env";
 import fs from "node:fs";
 import path from "node:path";
 import KeepAliveCron from "./lib/cron";
-import productRouter from "./routes/ProductRouter";
+import productRouter from "./routes/productRouter";
 import meRouter from "./routes/meRouter";
 import streamRouter from "./routes/streamRouter";
 const app = express();
