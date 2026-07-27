@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { createStreamChannel, getOrder, listOrders } from "../controllers/orderController";
+import { createStreamChannel, createVideoInvite, getOrder, listOrders } from "../controllers/orderController";
 
 const router = Router();
 
