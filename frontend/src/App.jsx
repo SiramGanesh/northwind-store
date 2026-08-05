@@ -19,6 +19,7 @@ function App() {
           <Route path='/' element={<HomePage />} />
           <Route path='/cart' element={<CartPage />} />
           <Route path='/orders' element={isSignedIn ? <OrdersPage /> : <Navigate to={'/'} replace />} />
+          <Route path='checkout/return' element={<CheckoutReturnPage />} />
         </Routes>
       </Layout>
     </>
