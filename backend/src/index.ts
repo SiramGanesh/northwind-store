@@ -67,15 +67,15 @@ if(fs.existsSync(publicDir)){
 
 Sentry.setupExpressErrorHandler(app);
 //todo: add error handler middleware
-app.use((err:unknown ,req:Request ,res:Response ,next:NextFunction) => {
+app.use((_err: unknown, _req: Request, res: Response, _next: NextFunction) => {
     const sentryId = (res as express.Response & {sentry?: string}).sentry;
     res.status(500).json({
         error: "Internal server error",
         ...(sentryId !== undefined && { sentryId }),
-    })
-})
+    });
+});
 
-app.listen(env.PORT,() => {
+app.listen(env.PORT, () => {
     console.log("listening on port:", env.PORT);
     if(env.NODE_ENV === "production"){
         KeepAliveCron.start();
