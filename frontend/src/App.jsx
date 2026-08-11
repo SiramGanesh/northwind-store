@@ -14,7 +14,7 @@ import OrderChatPage from './pages/OrderChatPage';
 
 
 function App() {
-  const { isLoaded } = useAuth();
+  const { isLoaded, isSignedIn } = useAuth();
 
   if(!isLoaded) return <PageLoader />;
 

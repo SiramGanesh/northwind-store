@@ -1,23 +1,25 @@
-import { QueryClient } from "@tanstack/react-query";
+import { Link, useSearchParams } from "react-router";
 import { useCart } from "../store/cart";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { CheckCircle2Icon, PackageIcon } from "lucide-react";
 
-function CheckoutReturn() {
-    const clearCart = useCart((s) => s.clearCart);
+function CheckoutReturnPage() {
+  const clearCart = useCart((s) => s.clear);
 
-    const [params] = useSearchParams();
-    const checkoutId = params.get("checkoutId");
+  const [params] = useSearchParams();
+  const checkoutId = params.get("checkout_id");
 
-    const query = useQueryClient();
-    
-    useEffect(() => {
-        clearCart();
-        QueryClient.invalidateQueries({queryKey: ["orders"]})
-    },[query, clearCart]);
+  const queryClient = useQueryClient();
 
-    return (
-      <div className="mx-auto max-w-lg text-center">
-       <div className="avatar placeholder mx-auto mb-4">
+  useEffect(() => {
+    clearCart();
+    queryClient.invalidateQueries({ queryKey: ["orders"] });
+  }, [queryClient, clearCart]);
+
+  return (
+    <div className="mx-auto max-w-lg text-center">
+      <div className="avatar placeholder mx-auto mb-4">
         <div className="w-16 rounded-full bg-success/20 text-success flex items-center justify-center">
           <CheckCircle2Icon className="size-10" aria-hidden />
         </div>
@@ -40,8 +42,8 @@ function CheckoutReturn() {
         <PackageIcon className="size-4" aria-hidden />
         View orders
       </Link>
-     </div>
-    );
+    </div>
+  );
 }
 
 export default CheckoutReturnPage;
