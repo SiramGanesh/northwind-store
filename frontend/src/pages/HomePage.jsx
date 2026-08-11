@@ -2,7 +2,7 @@ import { CatalogProductCard } from "../components/CatalogProductCard";
 import { HomeHero } from "../components/HomeHero";
 import { PageError } from "../components/PageError";
 import { TrustStrip } from "../components/TrustStrip";
-import { useHomeCatalog } from "../hooks/UseHomeCatalog";
+import { useHomeCatalog } from "../hooks/useHomeCatalog";
 
 function HomePage() {
 
