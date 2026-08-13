@@ -9,6 +9,7 @@ import { and, eq, inArray } from "drizzle-orm";
 import { polarCreateCheckout } from "../lib/polar";
 
 const env = getEnv();
+const frontendUrl = env.FRONTEND_URL.replace(/\/+$/, "");
 
 const cartSchema = z.object({
     items: z.array(
@@ -84,8 +85,8 @@ export async function createCheckout(req: Request, res:Response, next: NextFunct
       })
       .returning();
 
-    const successUrl = `${env.FRONTEND_URL}/checkout/return?checkout_id={CHECKOUT_ID}`;
-    const returnUrl = `${env.FRONTEND_URL}/cart`;
+    const successUrl = `${frontendUrl}/checkout/return?checkout_id={CHECKOUT_ID}`;
+    const returnUrl = `${frontendUrl}/cart`;
 
     const checkout = await polarCreateCheckout(env, {
       products: [env.POLAR_CHECKOUT_PRODUCT_ID],

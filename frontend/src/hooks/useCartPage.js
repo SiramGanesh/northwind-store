@@ -6,16 +6,17 @@ import { useState } from "react";
 
 export default function useCartPage(){
     const { getToken } = useAuth();
-    const { checkoutLoading, setCheckoutLoading } = useState(false);
+    const [checkoutLoading, setCheckoutLoading] = useState(false);
 
     const items = useCart((s)=> s.items);
     const setQty = useCart((s)=> s.setQty);
     const removeItem = useCart((s)=> s.removeItem);
 
+    const productIds = items.map((i) => i.productId);
     const { data, isLoading: productsLoading, isError: productsError} = useQuery({
-        quertKey: ["products"],
-        queryFn: () => apiFetch("/api.products"),
-        enabled: items.length > 0,
+        queryKey: ["products", productIds],
+        queryFn: () => apiFetch("/api/products"),
+        enabled: productIds.length > 0,
     });
 
     const products = data?.products ?? [];
@@ -32,11 +33,11 @@ export default function useCartPage(){
 
     async function checkout() {
         setCheckoutLoading(true);
-        
+
         const res = await apiFetch("/api/checkout", {
             getToken,
             method: "POST",
-            body,
+            body: { items },
         });
 
         if(res?.checkoutUrl){

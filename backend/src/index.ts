@@ -67,10 +67,18 @@ if(fs.existsSync(publicDir)){
 
 Sentry.setupExpressErrorHandler(app);
 //todo: add error handler middleware
-app.use((_err: unknown, _req: Request, res: Response, _next: NextFunction) => {
+app.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {
+    const message = err instanceof Error ? err.message : "Internal server error";
+    const stack = err instanceof Error ? err.stack : undefined;
+
+    // Always log so the cause is visible in the dev terminal.
+    console.error(`[${req.method} ${req.path}]`, message);
+    if (stack) console.error(stack);
+
     const sentryId = (res as express.Response & {sentry?: string}).sentry;
+    const isDev = env.NODE_ENV !== "production";
     res.status(500).json({
-        error: "Internal server error",
+        error: isDev ? message : "Internal server error",
         ...(sentryId !== undefined && { sentryId }),
     });
 });
